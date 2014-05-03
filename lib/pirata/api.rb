@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'open-uri'
-require 'collection'
 require 'torrent'
 require 'user'
 
@@ -28,9 +27,9 @@ module Pirata
     private #---------------------------------------------
     
     # From a results table, collect and build all Torrents
-    # into a Collection object
+    # into an array
     def collect_results(html)
-      results = Collection.new
+      results = []
            
       html.css('#searchResult tr').each do |row|
         title = row.search('.detLink').text
@@ -49,7 +48,7 @@ module Pirata
         rescue
           puts "not found"
         end
-        results.add(Pirata::Torrent.new(h))
+        results << Pirata::Torrent.new(h)
       end
       results
     end

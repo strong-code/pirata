@@ -2,6 +2,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'torrent'
 require 'user'
+require 'category'
+require 'sort'
 
 module Pirata
   class API
@@ -10,6 +12,13 @@ module Pirata
     
     def initialize(base_url)
       @base_url = base_url
+    end
+    
+    def search(query, page = 0, sort_type = Pirata::Sort::RELEVANCE, category = 0)
+      #build URL ex: http://thepiratebay.se/search/cats/0/99/0
+      url = @base_url + "/search/#{URI.escape(query)}" + "/#{page}" + "/#{sort_type}" + "/#{category}"
+      html = Nokogiri::HTML(open(url))
+      collect_results(html)
     end
     
     # Return the n most recent torrents from a category
@@ -44,9 +53,9 @@ module Pirata
           h[:magnet_link] = row.search('td a')[3]['href']
           h[:seeders]     = row.search('td')[2].text.to_i
           h[:leechers]    = row.search('td')[3].text.to_i
-          #h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, @base_url)
+          h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, @base_url)
         rescue
-          puts "not found"
+          #puts "not found"
         end
         results << Pirata::Torrent.new(h)
       end
@@ -56,5 +65,11 @@ module Pirata
   end
 end
 
-collection = Pirata::API.new('http://thepiratebay.se')
-p collection.recent.size
+api = Pirata::API.new('http://thepiratebay.si')
+collection = api.search('skyrim')
+p collection.length
+p collection.first
+puts "-----"
+collection = api.search('world of warcraft')
+p collection.length
+p collection.first

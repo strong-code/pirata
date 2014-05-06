@@ -5,6 +5,8 @@ require 'time'
 module Pirata
   class Torrent
     
+    # Iniitialize a Torrent object with instance variables and getter methods
+    # from a supplied params hash
     def initialize(params)
       params.each do |k,v| 
         instance_variable_set("@#{k}", v)
@@ -12,6 +14,7 @@ module Pirata
       end
     end
       
+    # Return a Torrent object from a corresponding ID
     def self.find_by_id(id)
       raise "Invalid torrent ID format. Must be an integer" if id.class != Fixnum
       html = Nokogiri::HTML(open(Pirata::Config::BASE_URL + "/torrent" + "/#{URI.escape(id.to_s)}"))
@@ -37,7 +40,7 @@ module Pirata
           :hash      => row.search('dl').text.split.last.strip
         }
       end
-      p Torrent.new(h)
+      Torrent.new(h)
     end
         
   end

@@ -8,22 +8,31 @@ require 'config'
 
 module Pirata
   class API
-    
-    attr_reader :base_url
-    
-    def initialize(base_url)
-      @base_url = Pirata::Config::BASE_URL
+        
+    def initialize(base = Pirata::Config::BASE_URL, page = 0, sort_type = Pirata::Sort::RELEVANCE, categories = ["0"])
+      @base_url = base
+      @page = page.to_s
+      @sort_type = sort_type
+      @category = categories.join(',')
+      @paginated = false
     end
     
     # Perform a search and return an array of Torrent objects
-    # Requires a query string. Also takes a page to start on, 
-    # Pirata::Sort constant and array of Pirata::Category constants
-    def search(query, page = 0, sort_type = Pirata::Sort::RELEVANCE, category = ["0"])
-      category = category.join(',')
+    # Requires a query string.
+    def search(query)
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
-      url = @base_url + "/search/#{URI.escape(query)}" + "/#{page.to_s}" + "/#{sort_type}" + "/#{category}"
+      url = @base_url + "/search/#{URI.escape(query)}" + "/#{@page}" + "/#{@sort_type}" + "/#{@category}"
       html = Nokogiri::HTML(open(url))
       parse_search_page(html)
+    end
+  
+    def page(page)
+      if page.class != Fixnum || page < 0
+        raise "Page must be a valid, positive integer"
+      elsif paginated
+        @page = page
+        return self.search()
+      end
     end
     
     # Return the n most recent torrents from a category
@@ -33,6 +42,7 @@ module Pirata
       parse_search_page(html)
     end
     
+    # Return an array of the 30 most recent Torrents
     def recent
       html = Nokogiri::HTML(open(@base_url + '/recent'))
       parse_search_page(html)
@@ -59,6 +69,7 @@ module Pirata
           h[:seeders]     = row.search('td')[2].text.to_i
           h[:leechers]    = row.search('td')[3].text.to_i
           h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, @base_url)
+         # h[:paginated]   = row
         rescue
           #puts "not found"
         end
@@ -71,12 +82,12 @@ module Pirata
 end
 
 api = Pirata::API.new('http://thepiratebay.si')
-Pirata::Torrent.find_by_id(10088431)
-api.top
+#Pirata::Torrent.find_by_id(10088431)
+#api.top
 collection = api.search('skyrim')
-p collection.length
-p collection.first
-puts "-----"
-collection = api.search('world of warcraft')
-p collection.length
-p collection.first
+#p collection.length
+#p collection.first
+#puts "-----"
+#collection = api.search('world of warcraft')
+#p collection.length
+#p collection.first

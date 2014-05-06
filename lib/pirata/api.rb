@@ -4,6 +4,7 @@ require 'torrent'
 require 'user'
 require 'category'
 require 'sort'
+require 'config'
 
 module Pirata
   class API
@@ -11,38 +12,42 @@ module Pirata
     attr_reader :base_url
     
     def initialize(base_url)
-      @base_url = base_url
+      @base_url = Pirata::Config::BASE_URL
     end
     
-    def search(query, page = 0, sort_type = Pirata::Sort::RELEVANCE, category = 0)
+    # Perform a search and return an array of Torrent objects
+    # Requires a query string. Also takes a page to start on, 
+    # Pirata::Sort constant and array of Pirata::Category constants
+    def search(query, page = 0, sort_type = Pirata::Sort::RELEVANCE, category = ["0"])
+      category = category.join(',')
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
-      url = @base_url + "/search/#{URI.escape(query)}" + "/#{page}" + "/#{sort_type}" + "/#{category}"
+      url = @base_url + "/search/#{URI.escape(query)}" + "/#{page.to_s}" + "/#{sort_type}" + "/#{category}"
       html = Nokogiri::HTML(open(url))
-      collect_results(html)
+      parse_search_page(html)
     end
     
     # Return the n most recent torrents from a category
     # Searches all categories if none supplied
     def top(category = "all")
       html = Nokogiri::HTML(open(@base_url + '/top/' + URI.escape(category)))
-      collect_results(html)
+      parse_search_page(html)
     end
     
     def recent
       html = Nokogiri::HTML(open(@base_url + '/recent'))
-      collect_results(html)
+      parse_search_page(html)
     end
     
     private #---------------------------------------------
     
     # From a results table, collect and build all Torrents
     # into an array
-    def collect_results(html)
+    def parse_search_page(html)
       results = []
-           
       html.css('#searchResult tr').each do |row|
         title = row.search('.detLink').text
         next if title == ''
+        
         begin
           h = {}
           h[:title]       = title
@@ -66,6 +71,8 @@ module Pirata
 end
 
 api = Pirata::API.new('http://thepiratebay.si')
+Pirata::Torrent.find_by_id(10088431)
+api.top
 collection = api.search('skyrim')
 p collection.length
 p collection.first

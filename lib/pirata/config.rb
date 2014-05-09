@@ -10,7 +10,7 @@ module Pirata
     # to pick a mirror that is closest to your application server for best
     # results though.
     
-    BASE_URL = "http://thepiratebay.si"
+    BASE_URL = "http://thevideobay.org/"
     
   end
 end

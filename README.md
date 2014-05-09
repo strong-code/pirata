@@ -46,9 +46,10 @@ query.search_page(2)
 ```torrent = Pirata::Search.new("zelda").results.first```
 
 | Method     | Result               | Example value                                   | Return Type |
+|------------|----------------------|-------------------------------------------------|-------------|
 | #title     | Torrent title        | "Cylum's 'The Legend of Zelda' ROM Collection"  | String      |
 | #category  | Torrent category     | "Games"                                         | String      |
-| #url       | Full URL             | "http://thepiratebay.si/torrent/10080116/Cyl..."| String      |
+| #url       | Full URL             | "http://thepiratebay.si/torrent/10080116/Cylum_s__The_Legend_of_Zelda__ROM_Collection"| String      |
 | #id        | Numeric ID           | 10080116                                        | Fixnum      |
 | #magnet    | Torrent magnet link  | "magnet:?xt=urn:btih:30f784d135af21152052a..."  | String      |
 | #seeders   | Number of seeders    | 4                                               | Fixnum      |
@@ -58,6 +59,7 @@ Note: The following methods require an extra request to be made, but the first r
 which method you call) will fetch and populate data for all other calls for the same Torrent object.
 
 | Method     | Result               | Example value                                   | Return Type |
+|------------|----------------------|-------------------------------------------------|-------------|
 | #files     | Number of files      | 51                                              | Fixnum      |
 | #size      | Total torrent size   | "224.95 MiB (235876575 Bytes)"                  | String      |
 | #comments  | Number of comments   | 0                                               | Fixnum      |

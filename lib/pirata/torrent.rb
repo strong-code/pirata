@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'time'
+require 'config'
 
 module Pirata
   class Torrent
@@ -105,7 +106,7 @@ module Pirata
           :title     => row.search('#title')[0].text.strip,
           :files     => row.search('dd a')[1].text.to_i,
           :size      => row.search('dd')[2].child.text,
-          :date      => (row.search('dd')[3].child.text),
+          :date      => Time.parse(row.search('.col2 dd')[0].text),
           :uploader  => row.search('dd')[4].text.strip,
           :seeders   => row.search('dd')[5].text.to_i,
           :leechers  => row.search('dd')[6].text.to_i,

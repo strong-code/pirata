@@ -48,7 +48,7 @@ query.search_page(2)
 | Method     | Result               | Example value                                   | Return Type |
 | #title     | Torrent title        | "Cylum's 'The Legend of Zelda' ROM Collection"  | String      |
 | #category  | Torrent category     | "Games"                                         | String      |
-| #url       | Full URL             | "http://thepiratebay.si/torrent/10080116/Cylum_s__The_Legend_of_Zelda__ROM_Collection"| String      |
+| #url       | Full URL             | "http://thepiratebay.si/torrent/10080116/Cyl..."| String      |
 | #id        | Numeric ID           | 10080116                                        | Fixnum      |
 | #magnet    | Torrent magnet link  | "magnet:?xt=urn:btih:30f784d135af21152052a..."  | String      |
 | #seeders   | Number of seeders    | 4                                               | Fixnum      |

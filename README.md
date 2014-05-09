@@ -19,6 +19,9 @@ top_hundred = Pirata::Search.top
 
 # Get an array of the 30 most recent uploaded Torrents
 most_recent = Pirata::Search.recent
+
+# You can also find detailed information on a Torrent if you know its ID
+Pirata::Torrent.find_by_id(5241636)
 ```
 
 ##Advanced Searching
@@ -40,8 +43,6 @@ query.search_page(2)
 ```
 
 ##Torrent Objects
-```ruby
-# Get the first Torrent object from a search
 ```torrent = Pirata::Search.new("zelda").results.first```
 
 | Method     | Result               | Example value                                   | Return Type |
@@ -74,6 +75,40 @@ which method you call) will fetch and populate data for all other calls for the 
 | #hash      | Alphanumeric hash    | "30F784D135AF21152052A45AE718A7FCAB597A79"      | String      |
 |------------|----------------------|-------------------------------------------------|-------------|
 | #date      | Date of upload       | 2002-01-01 00:00:00 -0500                       | Time        |
+
+#Categories
+Searches by default will query across all categories. However you can choose to narrow your search down
+by passing an array of categories. These are all namespaced under Pirata::Category
+```ruby
+    Audio         = "100"
+    Video         = "200"
+    Applications  = "300"
+    Games         = "400"
+    Porn          = "500"
+    Other         = "600"
+```
+
+#Sorting
+By default, results are sorted by ThePirateBay's relevance algorithm. While you could manually sort Torrent
+objects by writing your own comparator, you can also pass a ```Pirata::Sort``` constant to your search and
+have the results returned to you in whichever sorting fashion you choose.
+```ruby
+    RELEVANCE   = "99"
+    TYPE        = "13"
+    NAME        = "1"
+    DATE        = "3"
+    SIZE        = "5"
+    UPLOADER    = "11"
+    SEEDERS     = "7"
+    LEECHERS    = "9"
+```
+
+#Config
+ThePirataBay is notorious for going down and coming back up under a new domain. Because of this, you may
+have to change the domain you are querying against if you find you are running into trouble. Luckily, there
+are a lot of great people who host TPB mirror/proxy sites for free! If you find you are getting timeout errors
+or weird results, you can alter the ```Pirata::Config::BASE_URL``` constant in ```/lib/pirata/config.rb```. A
+list of mirror sites can be found at [TheProxyBay](http://proxybay.info/)
 
 #License
 This program is free software: you can redistribute it and/or modify

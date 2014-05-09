@@ -53,7 +53,7 @@ query.search_page(2)
 | #id        | Numeric ID           | 10080116                                        | Fixnum      |
 | #magnet    | Torrent magnet link  | "magnet:?xt=urn:btih:30f784d135af21152052a..."  | String      |
 | #seeders   | Number of seeders    | 4                                               | Fixnum      |
-| #leechers  | Number of leechers   | 0                                               |             |
+| #leechers  | Number of leechers   | 0                                               | Fixnum      |
 
 Note: The following methods require an extra request to be made, but the first request (regardless of
 which method you call) will fetch and populate data for all other calls for the same Torrent object.

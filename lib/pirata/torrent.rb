@@ -45,10 +45,6 @@ module Pirata
       @params[:uploader]
     end
     
-    def paginated?
-      @params[:paginated]
-    end
-    
     def files
       unless @params[:files]
         update_params

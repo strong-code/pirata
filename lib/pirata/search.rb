@@ -9,14 +9,14 @@ require 'config'
 module Pirata
   class Search
     
-    attr_accessor :results
+    attr_accessor :results, :pages
+    attr_reader :category, :sort_type, :pages, :query
         
-    def initialize(query, base = Pirata::Config::BASE_URL, page = 0, sort_type = Pirata::Sort::RELEVANCE, categories = ["0"])
-      @base_url = base
-      @page = page.to_s
+    def initialize(query, page = 0, sort_type = Pirata::Sort::RELEVANCE, categories = ["0"])
+      @page = page
       @sort_type = sort_type
       @category = categories.join(',')
-      @paginated = false
+      @pages = 0
       @query = query
       @results = search()
     end
@@ -25,18 +25,18 @@ module Pirata
     # Requires a query string.
     def search
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
-      url = @base_url + "/search/#{URI.escape(@query)}" + "/#{@page}" + "/#{@sort_type}" + "/#{@category}"
+      url = Pirata::Config::BASE_URL + "/search/#{URI.escape(@query)}" + "/#{@page.to_s}" + "/#{@sort_type}" + "/#{@category}"
       html = Nokogiri::HTML(open(url))
-      Pirata::Search::parse_search_page(html)
+      Pirata::Search::parse_search_page(html, self)
     end
-  
+    
+    # Return the n page results of a search, assuming it is multipage
     def page(page)
-      if page.class != Fixnum || page < 0
-        raise "Page must be a valid, positive integer"
-      elsif paginated
-        @page = page
-        return self.search()
-      end
+      raise "Search must be multipage to search pages" if !multipage?
+      raise "Page must be a valid, positive integer" if page.class != Fixnum || page < 0
+      
+      @page = page
+      return self.search()
     end
     
     # Return the n most recent torrents from a category
@@ -51,29 +51,33 @@ module Pirata
       html = Nokogiri::HTML(open(Pirata::Config::BASE_URL + '/recent'))
       Pirata::Search::parse_search_page(html)
     end
-    
+      
+    def multipage?
+      @pages > 0
+    end
+      
     private #---------------------------------------------
     
     # From a results table, collect and build all Torrents
     # into an array
-    def self.parse_search_page(html)
+    def self.parse_search_page(html, search)
       results = []
+      search.pages = html.css('#content div a')[-2].text.to_i
+      
       html.css('#searchResult tr').each do |row|
         title = row.search('.detLink').text
         next if title == ''
+        h = {}
         
         begin
-          h = {}
-          h[:title]       = title
-          h[:category]    = row.search('td a')[0].text
-          h[:title]       = row.search('.detLink')[0].text
-          h[:url]         = @base_url + row.search('.detLink').attribute('href').to_s
-          h[:id]          = h[:url].split('/')[4]
-          h[:magnet]      = row.search('td a')[3]['href']
-          h[:seeders]     = row.search('td')[2].text.to_i
-          h[:leechers]    = row.search('td')[3].text.to_i
-          h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, @base_url)
-          h[:paginated]   = html.css('#content div a')[-2]
+          h[:title]       = title,
+          h[:category]    = row.search('td a')[0].text,
+          h[:url]         = Pirata::Config::BASE_URL + row.search('.detLink').attribute('href').to_s,
+          h[:id]          = h[:url].split('/')[4],
+          h[:magnet]      = row.search('td a')[3]['href'],
+          h[:seeders]     = row.search('td')[2].text.to_i,
+          h[:leechers]    = row.search('td')[3].text.to_i,
+          h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, Pirata::Config::BASE_URL)
         rescue
           #puts "not found"
         end
@@ -84,6 +88,3 @@ module Pirata
     
   end
 end
-
-s = Pirata::Search.new("skyrim")
-p s.results.first

@@ -70,12 +70,12 @@ which method you call) will fetch and populate data for all other calls for the 
 Searches by default will query across all categories. However you can choose to narrow your search down
 by passing an array of categories. These are all namespaced under Pirata::Category
 ```ruby
-    Audio         = "100"
-    Video         = "200"
-    Applications  = "300"
-    Games         = "400"
-    Porn          = "500"
-    Other         = "600"
+    AUDIO         = "100"
+    VIDEO         = "200"
+    APPLICATIONS  = "300"
+    GAMES         = "400"
+    PORN          = "500"
+    OTHER         = "600"
 ```
 
 #Sorting
@@ -99,6 +99,14 @@ have to change the domain you are querying against if you find you are running i
 are a lot of great people who host TPB mirror/proxy sites for free! If you find you are getting timeout errors
 or weird results, you can alter the ```Pirata::Config::BASE_URL``` constant in ```/lib/pirata/config.rb```. A
 list of mirror sites can be found at [TheProxyBay](http://proxybay.info/)
+
+#Testing
+There is a basic test suite you can run that will test against basic use cases and functionaliy. The big problem
+with testing this gem is that 1) the data is always changing for search results as things get uploaded or removed,
+comments get added, leechers/seeders get added or dropped off, etc, and 2) ThePirateBay could go offline. You can 
+run tests by simply running ```rake``` in the parent Pirata directory. If you find you are getting errors (but not
+failures), ensure that the domain you are using in ```Pirata::Config::BASE_URL``` is actually up. Otherwise, please
+feel free to submit a Github issue and I'll get to it asap. Or fork it and help out!
 
 #License
 This program is free software: you can redistribute it and/or modify

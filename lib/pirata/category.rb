@@ -1,10 +1,10 @@
 module Pirata
   module Category
-    Audio         = "100"
-    Video         = "200"
-    Applications  = "300"
-    Games         = "400"
-    Porn          = "500"
-    Other         = "600"
+    AUDIO         = "100"
+    VIDEO         = "200"
+    APPLICATIONS  = "300"
+    GAMES         = "400"
+    PORN          = "500"
+    OTHER         = "600"
   end
 end

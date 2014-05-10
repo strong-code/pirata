@@ -113,6 +113,10 @@ run tests by simply running ```rake``` in the parent Pirata directory. If you fi
 failures), ensure that the domain you are using in ```Pirata::Config::BASE_URL``` is actually up. Otherwise, please
 feel free to submit a Github issue and I'll get to it asap. Or fork it and help out!
 
+#Todo
+- Implement sub-categories
+- Search uploaded torrents for given user
+
 #License
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

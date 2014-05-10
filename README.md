@@ -12,10 +12,15 @@ Next, require it (either in IRB or your .rb file) ```require 'pirata'```
 Now you are free to play with Pirata! Here are some examples
 ```ruby
 # A basic search across all categories
-torrents = Pirata::Search.new("zelda reorchestrated").results # => Return an array of Torrent objects from the search
+search = Pirata::Search.new("zelda reorchestrated") # => Return a Pirata::Search object
+search.results #=> An array of Torrent objects resulting from the search
+search.results.first #=> A Pirata::Torrent object. See the below table for available methods
 
 # Get an array of the top 100 Torrents
 top_hundred = Pirata::Search.top
+
+# Now within a specified category
+top_hundred_videos = Pirata::Search.top(Pirata::Category::VIDEO)
 
 # Get an array of the 30 most recent uploaded Torrents
 most_recent = Pirata::Search.recent

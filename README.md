@@ -35,7 +35,7 @@ Pirata::Torrent.find_by_id(5241636)
 torrents = Pirata::Search.new("open source", Pirata::Sort::SEEDERS).results
 
 # Order results by Date, search only in Video and Applications categories
-torrents = Pirata::Search.new("open source", Pirata::Sort::DATE, [Pirata::Category::Video, Pirata::Category::Applications]).results
+torrents = Pirata::Search.new("open source", Pirata::Sort::DATE, [Pirata::Category::VIDEO, Pirata::Category::APPLICATIONS]).results
 
 # Check if a search is multipage
 query = Pirata::Search.new("open source").multipage? # => true

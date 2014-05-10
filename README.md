@@ -13,8 +13,8 @@ Now you are free to play with Pirata! Here are some examples
 ```ruby
 # A basic search across all categories
 search = Pirata::Search.new("zelda reorchestrated") # => Return a Pirata::Search object
-search.results #=> An array of Torrent objects resulting from the search
-search.results.first #=> A Pirata::Torrent object. See the below table for available methods
+search.results # => An array of Torrent objects resulting from the search
+search.results.first # => A Pirata::Torrent object. See the below table for available methods
 
 # Get an array of the top 100 Torrents
 top_hundred = Pirata::Search.top
@@ -38,10 +38,10 @@ torrents = Pirata::Search.new("open source", Pirata::Sort::SEEDERS).results
 torrents = Pirata::Search.new("open source", Pirata::Sort::DATE, [Pirata::Category::Video, Pirata::Category::Applications]).results
 
 # Check if a search is multipage
-query = Pirata::Search.new("open source").multipage? #=> true
+query = Pirata::Search.new("open source").multipage? # => true
 
 # Find the last page number
-query.pages #=> 3
+query.pages # => 3
 
 # Perform a search on a page beyond the first
 query.search_page(2)

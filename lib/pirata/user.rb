@@ -1,12 +1,13 @@
+require 'config'
+
 module Pirata
   class User
     
     attr_reader :profile_url, :username
     
-    def initialize(username, base_url)
+    def initialize(username)
       @username = username
-      @base_url = base_url
-      @profile_url = "#{@base_url}/user/#{@username}" 
+      @profile_url = "#{Pirata::Config::BASE_URL}/user/#{@username}" 
     end
      
   end

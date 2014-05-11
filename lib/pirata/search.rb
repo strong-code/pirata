@@ -21,11 +21,10 @@ module Pirata
     end
     
     # Perform a search and return an array of Torrent objects
-    # Requires a query string.
     def search(page = 0)
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
       url = Pirata::Config::BASE_URL + "/search/#{URI.escape(@query)}" + "/#{page.to_s}" + "/#{@sort_type}" + "/#{@category}"
-      html = Nokogiri::HTML(open(url))
+      p html = Nokogiri::HTML(open(url))
       Pirata::Search::parse_search_page(html, self)
     end
     
@@ -61,7 +60,11 @@ module Pirata
     # into an array
     def self.parse_search_page(html, search_object = nil)
       results = []
-      search_object.pages = html.css('#content div a')[-2].text.to_i unless search_object.nil?
+      
+      begin 
+        search_object.pages = html.css('#content div a')[-2].text.to_i
+      rescue
+      end  
       
       html.css('#searchResult tr').each do |row|
         title = row.search('.detLink').text
@@ -76,7 +79,7 @@ module Pirata
           h[:magnet]      = row.search('td a')[3]['href']
           h[:seeders]     = row.search('td')[2].text.to_i
           h[:leechers]    = row.search('td')[3].text.to_i
-          h[:uploader]    = Pirata::User.new(row.search('td a')[5].text, Pirata::Config::BASE_URL)
+          h[:uploader]    = Pirata::User.new(row.search('td a')[5].text)
         rescue
           #puts "not found"
         end

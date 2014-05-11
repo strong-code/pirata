@@ -59,6 +59,7 @@ query.search_page(2)
 | #magnet    | Torrent magnet link  | "magnet:?xt=urn:btih:30f784d135af21152052a..."  | String      |
 | #seeders   | Number of seeders    | 4                                               | Fixnum      |
 | #leechers  | Number of leechers   | 0                                               | Fixnum      |
+| #uploader  | User who uploaded torrent | #<Pirata::User:0x0000000260f200>           | Pirata::User|
 
 Note: The following methods require an extra request to be made, but the first request (regardless of
 which method you call) will fetch and populate data for all other calls for the same Torrent object.
@@ -70,6 +71,13 @@ which method you call) will fetch and populate data for all other calls for the 
 | #comments  | Number of comments   | 0                                               | Fixnum      |
 | #hash      | Alphanumeric hash    | "30F784D135AF21152052A45AE718A7FCAB597A79"      | String      |
 | #date      | Date of upload       | 2002-01-01 00:00:00 -0500                       | Time        |
+
+##User Objectes
+
+| Method     | Result               | Example value                                   | Return Type |
+|------------|----------------------|-------------------------------------------------|-------------|
+| #username  | Username string      | "LXZX"                                          | String      |
+| #profile_url | URL for the user profile | "http://thepiratebay.si/user/LXZX"        | String      |
 
 #Categories
 Searches by default will query across all categories. However you can choose to narrow your search down

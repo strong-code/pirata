@@ -72,7 +72,7 @@ which method you call) will fetch and populate data for all other calls for the 
 | #hash      | Alphanumeric hash    | "30F784D135AF21152052A45AE718A7FCAB597A79"      | String      |
 | #date      | Date of upload       | 2002-01-01 00:00:00 -0500                       | Time        |
 
-##User Objectes
+##User Objects
 
 | Method     | Result               | Example value                                   | Return Type |
 |------------|----------------------|-------------------------------------------------|-------------|

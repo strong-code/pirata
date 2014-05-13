@@ -40,7 +40,7 @@ class PirataTest < Test::Unit::TestCase
     assert_equal(30, s.search_page(2).length)
   end
     
-  def test_torrent_object_variables\
+  def test_torrent_object_variables
     torrent = Pirata::Search.new("zelda").results.first
     assert_equal(String, torrent.title.class)
     assert_equal(String, torrent.category.class)

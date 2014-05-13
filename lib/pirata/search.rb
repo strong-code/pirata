@@ -24,7 +24,7 @@ module Pirata
     def search(page = 0)
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
       url = Pirata::Config::BASE_URL + "/search/#{URI.escape(@query)}" + "/#{page.to_s}" + "/#{@sort_type}" + "/#{@category}"
-      p html = Nokogiri::HTML(open(url))
+      html = Nokogiri::HTML(open(url))
       Pirata::Search::parse_search_page(html, self)
     end
     

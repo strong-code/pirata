@@ -104,13 +104,13 @@ module Pirata
         row = html.css('#detailsframe').first
         h = {
           :title     => row.search('#title')[0].text.strip,
-          :files     => row.search('dd a')[1].text.to_i,
-          :size      => row.search('dd')[2].child.text,
-          :date      => Time.parse(row.search('.col2 dd')[0].text),
-          :uploader  => row.search('dd')[4].text.strip,
-          :seeders   => row.search('dd')[5].text.to_i,
-          :leechers  => row.search('dd')[6].text.to_i,
-          :comments  => row.search('dd')[7].text.to_i,
+          :files     => row.at_css('dt:contains("Files:")').next_element().text.to_i,
+          :size      => row.at_css('dt:contains("Size:")').next_element().child.text,
+          :date      => Time.parse(row.at_css('dt:contains("Uploaded:")').next_element().text),
+          :uploader  => row.at_css('dt:contains("By:")').next_element().text.strip,
+          :seeders   => row.at_css('dt:contains("Seeders:")').next_element().text.to_i,
+          :leechers  => row.at_css('dt:contains("Leechers:")').next_element().text.to_i,
+          :comments  => row.at_css('dt:contains("Comments")').next_element().text.to_i,
           :hash      => row.search('dl').text.split.last.strip
         }
         return h

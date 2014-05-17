@@ -75,7 +75,7 @@ module Pirata
           h[:title]       = title
           h[:category]    = row.search('td a')[0].text
           url       = Pirata::Config::BASE_URL + row.search('.detLink').attribute('href').to_s
-          h[:url]         = url.sub!("[", "%5B").sub!("]", "%5D")
+          h[:url]         = url.sub("[", "%5B").sub("]", "%5D")
           h[:id]          = h[:url].split('/')[4].to_i
           h[:magnet]      = row.search('td a')[3]['href']
           h[:seeders]     = row.search('td')[2].text.to_i

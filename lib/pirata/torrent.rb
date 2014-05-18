@@ -107,7 +107,7 @@ module Pirata
           :files     => row.at_css('dt:contains("Files:")').next_element().text.to_i,
           :size      => row.at_css('dt:contains("Size:")').next_element().child.text,
           :date      => Time.parse(row.at_css('dt:contains("Uploaded:")').next_element().text),
-          :uploader  => row.at_css('dt:contains("By:")').next_element().text.strip,
+          :uploader  => Pirata::User.new(row.at_css('dt:contains("By:")').next_element().text.strip),
           :seeders   => row.at_css('dt:contains("Seeders:")').next_element().text.to_i,
           :leechers  => row.at_css('dt:contains("Leechers:")').next_element().text.to_i,
           :comments  => row.at_css('dt:contains("Comments")').next_element().text.to_i,

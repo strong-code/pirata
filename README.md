@@ -126,7 +126,7 @@ failures), ensure that the domain you are using in ```Pirata::Config::BASE_URL``
 feel free to submit a Github issue and I'll get to it asap. Or fork it and help out!
 
 #Todo
-- Implement sub-categories
+- --Implement sub-categories-- Done 5/18
 - Search uploaded torrents for given user
 
 #License

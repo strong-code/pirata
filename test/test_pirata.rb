@@ -3,6 +3,9 @@ require 'pirata'
 
 class PirataTest < Test::Unit::TestCase
   
+  # This file is getting kind of big/messy, test should be broken up
+  # into modular and logical parts
+  
   def test_basic_search
     s = Pirata::Search.new("skyrim")
     assert_equal(30, s.results.length)
@@ -23,7 +26,16 @@ class PirataTest < Test::Unit::TestCase
   end
       
   def test_multicategory_search
-    s = Pirata::Search.new("zelda", Pirata::Sort::RELEVANCE, [Pirata::Category::AUDIO, Pirata::Category::GAMES])
+    categories = [Pirata::Category::AUDIO, Pirata::Category::GAMES]
+    s = Pirata::Search.new("zelda", Pirata::Sort::RELEVANCE, categories)
+    assert_equal(30, s.results.length)
+    assert_equal(Pirata::Torrent, s.results.first.class)
+  end
+  
+  def test_multiple_subcategory_search
+    categories = [Pirata::Category::AUDIO_MUSIC, Pirata::Category::GAMES_WII,
+                  Pirata::Category::COMICS, Pirata::Category::VID_MOVIES]
+    s = Pirata::Search.new("zelda", Pirata::Sort::RELEVANCE, categories)
     assert_equal(30, s.results.length)
     assert_equal(Pirata::Torrent, s.results.first.class)
   end

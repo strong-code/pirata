@@ -31,18 +31,30 @@ module Pirata
     end
     
     def magnet
+      unless @params[:magnet]
+        update_params
+      end
       @params[:magnet]
     end
     
     def seeders
+      unless @params[:seeders]
+        update_params
+      end
       @params[:seeders]
     end
     
     def leechers
+      unless @params[:leechers]
+        update_params
+      end
       @params[:leechers]
     end
     
     def uploader
+      unless @params[:uploader]
+        update_params
+      end
       @params[:uploader]
     end
     
@@ -111,7 +123,8 @@ module Pirata
           :seeders   => row.at_css('dt:contains("Seeders:")').next_element().text.to_i,
           :leechers  => row.at_css('dt:contains("Leechers:")').next_element().text.to_i,
           :comments  => row.at_css('dt:contains("Comments")').next_element().text.to_i,
-          :hash      => row.search('dl').text.split.last.strip
+          :hash      => row.search('dl').text.split.last.strip,
+          :magnet    => row.search('.download a')[0]['href']
         }
         return h
       end

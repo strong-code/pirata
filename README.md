@@ -81,7 +81,11 @@ which method you call) will fetch and populate data for all other calls for the 
 
 #Categories
 Searches by default will query across all categories. However you can choose to narrow your search down
-by passing an array of categories. These are all namespaced under Pirata::Category
+by passing an array of categories. These are all namespaced under Pirata::Category. **Please note:** These
+are only the main/topmost categories for searching - there are subcategories for each category listed below
+(but the list is too large to be pasted here). Please reference ```lib/pirata/category.rb``` for an entire
+list of possible search categories.
+
 ```ruby
     AUDIO         = "100"
     VIDEO         = "200"

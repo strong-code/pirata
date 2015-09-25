@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pirata (0.1.5)
+    pirata (0.2.0)
       nokogiri (~> 1.0)
       open_uri_redirections (~> 0.2)
 

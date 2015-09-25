@@ -1,5 +1,5 @@
 #Pirata
-[![Gem Version](https://badge.fury.io/rb/pirata.svg)](http://badge.fury.io/rb/pirata) [![Pirata API Documentation](https://www.omniref.com/ruby/gems/pirata.png)](https://www.omniref.com/ruby/gems/pirata)
+[![Gem Version](https://badge.fury.io/rb/pirata.svg)](http://badge.fury.io/rb/pirata) [![Pirata API Documentation](https://www.omniref.com/ruby/gems/pirata.png)](https://www.omniref.com/ruby/gems/pirata)[![Build Status](https://travis-ci.org/clindsay107/pirata.svg)](https://travis-ci.org/clindsay107/pirata)
 
 Pirata is a Ruby gem that exposes a useful and easy to use API for the popular
 torrent tracker [ThePirateBay](http://thepiratebay.se). It aims to give developers

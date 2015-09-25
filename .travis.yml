@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.2.1
+  - 1.9.3
+before_install: gem install bundler -v 1.10.6
+script: bundle exec rake test
+notifications:
+  email:
+    - dev@null.com

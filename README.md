@@ -119,10 +119,15 @@ are a lot of great people who host TPB mirror/proxy sites for free! If you find 
 or weird results, you can alter the ```Pirata::Config::BASE_URL``` constant in ```/lib/pirata/config.rb```. A
 list of mirror sites can be found at [TheProxyBay](http://proxybay.info/)
 
+There is also a rule for redirect rules. When specifying a protocol in the `BASE_URL` value, you may choose to
+use `http` or `https`. The `open_uri_redirections` patch allows HTTP <-> HTTPS redirections, but requires a rule
+to be specified. You can use `:safe` or `:all`. The former only does HTTP -> HTTPS redirection, while the latter
+will do both. By default, it is set to `:all`.
+
 #Testing
 There is a basic test suite you can run that will test against basic use cases and functionaliy. The big problem
 with testing this gem is that 1) the data is always changing for search results as things get uploaded or removed,
-comments get added, leechers/seeders get added or dropped off, etc, and 2) ThePirateBay could go offline. You can 
+comments get added, leechers/seeders get added or dropped off, etc, and 2) ThePirateBay could go offline. You can
 run tests by simply running ```rake``` in the parent Pirata directory. If you find you are getting errors (but not
 failures), ensure that the domain you are using in ```Pirata::Config::BASE_URL``` is actually up. Otherwise, please
 feel free to submit a Github issue and I'll get to it asap. Or fork it and help out!
@@ -130,6 +135,7 @@ feel free to submit a Github issue and I'll get to it asap. Or fork it and help 
 #Todo
 - ~~Implement sub-categories~~ Done 5/18
 - Search uploaded torrents for given user
+- Add side-chaining to prevent multiple requests
 
 #License
 This program is free software: you can redistribute it and/or modify

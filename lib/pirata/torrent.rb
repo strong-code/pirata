@@ -14,10 +14,6 @@ module Pirata
       @title = params_hash[:title]
     end
 
-    # def title
-    #   @params[:title]
-    # end
-
     def category
       @params[:category]
     end

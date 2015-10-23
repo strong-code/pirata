@@ -11,6 +11,15 @@ a simple way to incorporate the torrent and website data into their applications
 
 #Usage
 ##Quick Start Guide
+**Note** As the `nokogiri` gem is a runtime dependency of this one, it is highly
+recommended you install that before hand like so:
+
+    $ env NOKOGIRI_USE_SYSTEM_LIBRARIES=true gem install nokogriri
+
+The reason for this is that `nokogiri` attempts to compile libxml2 and libxslt
+at installation. Substituting already-installed system libraries will cut down
+drastically on the installation time. This is not required, but hopefully will be helpful.
+
 First, download pirata with ```gem install pirata```
 
 Next, require it (either in IRB or your .rb file) ```require 'pirata'```

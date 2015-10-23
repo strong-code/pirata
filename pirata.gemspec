@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib", "lib/pirata"]
   s.license = "GPL"
   s.description = "A Ruby gem that exposes an API for using The Pirate Bay torrent tracker service."
-  s.add_dependency 'nokogiri', '~> 1.0'
-  s.add_dependency 'open_uri_redirections', '~> 0.2'
+  s.add_runtime_dependency 'nokogiri', '~> 1.5.0', '>= 1.5.0'
+  s.add_runtime_dependency 'open_uri_redirections', '~> 0.2'
 end

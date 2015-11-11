@@ -12,7 +12,7 @@ a simple way to incorporate the torrent and website data into their applications
 **Note** As the `nokogiri` gem is a runtime dependency of this one, it is highly
 recommended you install that before hand like so:
 
-    $ env NOKOGIRI_USE_SYSTEM_LIBRARIES=true gem install nokogriri
+    $ env NOKOGIRI_USE_SYSTEM_LIBRARIES=true gem install nokogiri
 
 The reason for this is that `nokogiri` attempts to compile libxml2 and libxslt
 at installation. Substituting already-installed system libraries will cut down

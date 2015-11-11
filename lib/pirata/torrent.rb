@@ -7,90 +7,17 @@ require 'pirata/config'
 module Pirata
   class Torrent
 
-    attr_reader :title
+    attr_reader :title, :category, :url, :id, :magnet
 
     def initialize(params_hash)
-      @params = params_hash
-      @title = params_hash[:title]
-    end
+      @params     = params_hash
+      @title      = @params[:title]
+      @category   = @params[:category]
+      @url        = @params[:url]
+      @id         = @params[:id]
+      @magnet     = @params[:magnet]
 
-    def category
-      @params[:category]
-    end
-
-    def title
-      @params[:title]
-    end
-
-    def url
-      @params[:url]
-    end
-
-    def id
-      @params[:id]
-    end
-
-    def magnet
-      unless @params[:magnet]
-        update_params
-      end
-      @params[:magnet]
-    end
-
-    def seeders
-      unless @params[:seeders]
-        update_params
-      end
-      @params[:seeders]
-    end
-
-    def leechers
-      unless @params[:leechers]
-        update_params
-      end
-      @params[:leechers]
-    end
-
-    def uploader
-      unless @params[:uploader]
-        update_params
-      end
-      @params[:uploader]
-    end
-
-    def files
-      unless @params[:files]
-        update_params
-      end
-      @params[:files]
-    end
-
-    def size
-      unless @params[:size]
-        update_params
-      end
-      @params[:size]
-    end
-
-    def date
-      unless @params[:date]
-        update_params
-      end
-      @params[:date]
-    end
-
-    def comments
-      unless @params[:comments]
-        update_params
-      end
-      @params[:comments]
-    end
-
-    def hash
-      unless @params[:hash]
-        update_params
-      end
-      @params[:hash]
+      build_getters()
     end
 
     # Return a Torrent object from a corresponding ID
@@ -102,13 +29,23 @@ module Pirata
       Pirata::Torrent.new(results_hash)
     end
 
-    def update_params
+    def update_params!
       html = Nokogiri::HTML(open(@params[:url], :allow_redirections => Pirata::Config::REDIRECT))
       updated_params = Pirata::Torrent.parse_torrent_page(html)
       @params.merge!(updated_params)
     end
 
     private #-------------------------------------------------
+
+    # Initialize getters for +1 request variables, fetching them if we need them
+    def build_getters
+      [:seeders, :leechers, :uploader, :files, :size, :date, :comments, :hash].each do |m|
+        self.class.send(:define_method, m) {
+          update_params! unless @params[m]
+          @params[m]
+        }
+      end
+    end
 
     def self.parse_torrent_page(html)
       if html.css("#err").text.include?("404")

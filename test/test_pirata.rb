@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'pirata'
 
-class PirataTest < Minitest::Test
+class PirataTest < Minitest::Unit::TestCase
 
   # This file is getting kind of big/messy, test should be broken up
   # into modular and logical parts

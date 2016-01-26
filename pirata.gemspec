@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "pirata"
-  s.version = "1.2.2"
-  s.date = "2015-11-11"
+  s.version = "1.3.2"
+  s.date = "2016-1-26"
   s.summary = "Pirata - a Ruby API for The Pirate Bay"
   s.authors = ["Colin Lindsay"]
   s.email = "clindsay107@gmail.com"

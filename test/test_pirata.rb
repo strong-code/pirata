@@ -13,6 +13,20 @@ class PirataTest < Minitest::Unit::TestCase
     assert_equal(Pirata::Torrent, s.results.first.class)
   end
 
+  def test_config_defaults
+    assert(!Pirata.config.nil?)
+    assert(!Pirata.config[:base_url].nil?)
+    assert(Pirata.config[:redirect] == :all)
+  end
+
+  def test_config_hash
+    #
+  end
+
+  def test_config_yaml
+    #
+  end
+
   def test_top
     assert_equal(100, Pirata::Search.top.length)
   end

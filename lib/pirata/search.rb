@@ -24,7 +24,7 @@ module Pirata
     def search(page = 0)
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
       url = Pirata.config[:base_url] + "/search/#{URI.escape(@query)}" + "/#{page.to_s}" + "/#{@sort_type}" + "/#{@category}"
-      html = parse(url)
+      html = Pirata::Search.parse_html(url)
       Pirata::Search::parse_search_page(html, self)
     end
 
@@ -41,14 +41,14 @@ module Pirata
     # Searches all categories if none supplied
     def self.top(category = "all")
       url = Pirata.config[:base_url] + '/top/' + URI.escape(category)
-      html = parse(url)
+      html = self.parse_html(url)
       Pirata::Search::parse_search_page(html)
     end
 
     # Return an array of the 30 most recent Torrents
     def self.recent
       url = Pirata.config[:base_url] + '/recent'
-      html = parse(url)
+      html = self.parse_html(url)
       Pirata::Search::parse_search_page(html)
     end
 
@@ -58,9 +58,18 @@ module Pirata
 
     private #---------------------------------------------
 
-    # Return HTML body of a supplied URL
-    def parse(url)
-      Nokogiri::HTML(open(url, :allow_redirections => Pirata.config[:redirect]))
+    # Parse HTML body of a supplied URL
+    class << self
+      def parse_html(url)
+        response = open(url, :allow_redirections => Pirata.config[:redirect])
+        Nokogiri::HTML(response)
+      end
+    end
+
+    # Parse HTML body of a supplied URL
+    def parse_html(url)
+      response = open(url, :allow_redirections => Pirata.config[:redirect])
+      Nokogiri::HTML(response)
     end
 
     # From a results table, collect and build all Torrents

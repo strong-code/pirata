@@ -22,23 +22,29 @@ module Pirata
     # Return a Torrent object from a corresponding ID
     def self.find_by_id(id)
       raise "Invalid torrent ID format. Must be an integer" if id.class != Fixnum
-      url = Pirata.config[:base_url] + "/torrent" + "/#{URI.escape(id.to_s)}"
-      html = parse(url)
+
+      url  = Pirata.config[:base_url] + "/torrent" + "/#{URI.escape(id.to_s)}"
+      html = self.parse_html(url)
       results_hash = parse_torrent_page(html)
+
       Pirata::Torrent.new(results_hash)
     end
 
     def update_params!
-      html = parse(url)
+      html = Pirata::Torrent.parse_html(url)
+      
       updated_params = Pirata::Torrent.parse_torrent_page(html)
       @params.merge!(updated_params)
     end
 
     private #-------------------------------------------------
 
-    # Return HTML body of a supplied URL
-    def parse(url)
-      Nokogiri::HTML(open(url, :allow_redirections => Pirata.config[:redirect]))
+    # Parse HTML body of a supplied URL
+    class << self
+      def parse_html(url)
+        response = open(url, :allow_redirections => Pirata.config[:redirect])
+        Nokogiri::HTML(response)
+      end
     end
 
     # Initialize getters for +1 request variables, fetching them if we need them

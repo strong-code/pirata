@@ -6,7 +6,7 @@ class PirataTest < Minitest::Unit::TestCase
   # This file is getting kind of big/messy, test should be broken up
   # into modular and logical parts
 
-  def setup
+  def before
     # Configure with default opts
     Pirata.configure()
   end

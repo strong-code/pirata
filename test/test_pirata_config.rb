@@ -3,7 +3,7 @@ require 'pirata'
 
 class PirataConfigTest < Minitest::Unit::TestCase
 
-  def setup
+  def before
     Pirata.configure()
   end
 

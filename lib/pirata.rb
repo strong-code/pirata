@@ -13,7 +13,9 @@ module Pirata
     @config.keys.include?(key.to_sym)
   end
 
-  def self.configure(opts = {})
+  def self.configure(opts = nil)
+    return if opts.nil?
+
     if opts.class == Hash
       opts.each do |k, v|
         @config[k.to_sym] = v if self.valid_key?(k)

@@ -6,9 +6,12 @@ class PirataTest < Minitest::Unit::TestCase
   # This file is getting kind of big/messy, test should be broken up
   # into modular and logical parts
 
-  def before
+  def setup
     # Configure with default opts
-    Pirata.configure()
+    Pirata.configure({
+      :base_url => 'https://pirateproxy.tv/',
+      :redirect => :all
+    })
   end
 
   def test_basic_search

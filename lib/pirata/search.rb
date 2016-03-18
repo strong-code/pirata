@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'open_uri_redirections'
 require 'open-uri'
-require 'pirata/config'
 require 'pirata/torrent'
 require 'pirata/user'
 require 'pirata/category'
@@ -24,8 +23,8 @@ module Pirata
     # Perform a search and return an array of Torrent objects
     def search(page = 0)
       #build URL ex: http://thepiratebay.se/search/cats/0/99/0
-      url = Pirata::Config::BASE_URL + "/search/#{URI.escape(@query)}" + "/#{page.to_s}" + "/#{@sort_type}" + "/#{@category}"
-      html = Nokogiri::HTML(open(url, :allow_redirections => Pirata::Config::REDIRECT))
+      url = Pirata.config[:base_url] + "/search/#{URI.escape(@query)}" + "/#{page.to_s}" + "/#{@sort_type}" + "/#{@category}"
+      html = Pirata::Search.parse_html(url)
       Pirata::Search::parse_search_page(html, self)
     end
 
@@ -41,15 +40,15 @@ module Pirata
     # Return the n most recent torrents from a category
     # Searches all categories if none supplied
     def self.top(category = "all")
-      url = Pirata::Config::BASE_URL + '/top/' + URI.escape(category)
-      html = Nokogiri::HTML(open(url, :allow_redirections => Pirata::Config::REDIRECT))
+      url = Pirata.config[:base_url] + '/top/' + URI.escape(category)
+      html = self.parse_html(url)
       Pirata::Search::parse_search_page(html)
     end
 
     # Return an array of the 30 most recent Torrents
     def self.recent
-      url = Pirata::Config::BASE_URL + '/recent'
-      html = Nokogiri::HTML(open(url, :allow_redirections => Pirata::Config::REDIRECT))
+      url = Pirata.config[:base_url] + '/recent'
+      html = self.parse_html(url)
       Pirata::Search::parse_search_page(html)
     end
 
@@ -58,6 +57,20 @@ module Pirata
     end
 
     private #---------------------------------------------
+
+    # Parse HTML body of a supplied URL
+    class << self
+      def parse_html(url)
+        response = open(url, :allow_redirections => Pirata.config[:redirect])
+        Nokogiri::HTML(response)
+      end
+    end
+
+    # Parse HTML body of a supplied URL
+    def parse_html(url)
+      response = open(url, :allow_redirections => Pirata.config[:redirect])
+      Nokogiri::HTML(response)
+    end
 
     # From a results table, collect and build all Torrents
     # into an array
@@ -77,7 +90,7 @@ module Pirata
         begin
           h[:title]       = title
           h[:category]    = row.search('td a')[0].text
-          url             = Pirata::Config::BASE_URL + row.search('.detLink').attribute('href').to_s
+          url             = Pirata.config[:base_url] + row.search('.detLink').attribute('href').to_s
           h[:url]         = url.gsub("[", "%5B").gsub("]", "%5D")
           h[:id]          = h[:url].split('/')[4].to_i
           h[:magnet]      = row.search('td a')[3]['href']

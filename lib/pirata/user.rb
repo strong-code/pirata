@@ -1,5 +1,3 @@
-require 'pirata/config'
-
 module Pirata
   class User
 
@@ -7,7 +5,7 @@ module Pirata
 
     def initialize(username)
       @username = username
-      @profile_url = "#{Pirata::Config::BASE_URL}/user/#{@username}"
+      @profile_url = "#{Pirata.config[:base_url]}/user/#{@username}"
     end
 
     def to_s

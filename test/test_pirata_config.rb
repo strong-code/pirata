@@ -10,7 +10,7 @@ class PirataConfigTest < Minitest::Unit::TestCase
   def test_config_defaults
     assert(!Pirata.config.nil?)
     assert(!Pirata.config[:base_url].nil?)
-    assert(Pirata.config[:redirect] == :all)
+    assert_equal(Pirata.config[:redirect], :all)
   end
 
   def test_config_hash
@@ -21,8 +21,8 @@ class PirataConfigTest < Minitest::Unit::TestCase
 
     Pirata.configure(opts)
 
-    assert(Pirata.config[:base_url] == 'http://test.com')
-    assert(Pirata.config[:redirect] == :safe)
+    assert_equal(Pirata.config[:base_url], 'http://test.com')
+    assert_equal(Pirata.config[:redirect], :safe)
   end
 
   # Should revert to defaults on non-hash args
@@ -31,7 +31,7 @@ class PirataConfigTest < Minitest::Unit::TestCase
 
     Pirata.configure(opts)
 
-    assert(Pirata.config[:redirect] == :all)
+    assert_equal(Pirata.config[:redirect], :all)
   end
 
 end

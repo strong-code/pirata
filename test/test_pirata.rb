@@ -6,25 +6,16 @@ class PirataTest < Minitest::Unit::TestCase
   # This file is getting kind of big/messy, test should be broken up
   # into modular and logical parts
 
+  def setup
+    # Configure with default opts
+    Pirata.configure()
+  end
+
   def test_basic_search
     s = Pirata::Search.new("skyrim")
     assert_equal(30, s.results.length)
     assert_equal(Pirata::Search, s.class)
     assert_equal(Pirata::Torrent, s.results.first.class)
-  end
-
-  def test_config_defaults
-    assert(!Pirata.config.nil?)
-    assert(!Pirata.config[:base_url].nil?)
-    assert(Pirata.config[:redirect] == :all)
-  end
-
-  def test_config_hash
-    #
-  end
-
-  def test_config_yaml
-    #
   end
 
   def test_top

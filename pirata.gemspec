@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "pirata"
-  s.version = "2.0.0"
-  s.date = "2016-03-18"
+  s.version = "2.0.1"
+  s.date = "2016-03-19"
   s.summary = "Pirata - a Ruby API for The Pirate Bay"
   s.authors = ["Colin Lindsay"]
   s.email = "clindsay107@gmail.com"
@@ -17,7 +17,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib", "lib/pirata"]
   s.license = "GPL-3.0"
   s.description = "A Ruby gem that exposes an API for using The Pirate Bay torrent tracker service."
+  s.required_ruby_version = '> 1.9.3'
   s.add_runtime_dependency 'nokogiri', '~> 1.5.0', '>= 1.5.0'
   s.add_runtime_dependency 'open_uri_redirections', '~> 0.2'
-  s.add_development_dependency 'minitest', '~> 5.0.0'
+  s.add_development_dependency 'minitest', '~> 5.0', '>= 5.0.0'
 end

@@ -4,7 +4,7 @@ tag_text: Pirata
 description: A Ruby gem that provides an API for ThePirateBay torrent tracker. Viva il pirata!
 
 # Build settings
-markdown: GFM
+markdown: redcarpet
 exclude: ["README.md"]
 sass:
   style: compressed

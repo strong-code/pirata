@@ -1,0 +1,10 @@
+# Site settings
+title: Pirata
+tag_text: Pirata
+description: A Ruby gem that provides an API for ThePirateBay torrent tracker. Viva il pirata!
+
+# Build settings
+markdown: kramdown
+exclude: ["README.md"]
+sass:
+  style: compressed

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="A Ruby gem that provides an API for ThePirateBay torrent tracker. Viva il pirata!">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pirata</title>
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+  <div class="container">
+    <h1><a href="./">Pirata</a></h1>
+    <p><strong>Note: I’m available for consulting and contract software development work. If you’re
+looking to build a website, API, automation or scraping services then get in touch: <a href="mailto:colin@strongco.de">colin@strongco.de</a></strong></p>
+
+<!-- [Pirata](https://github.com/strong-code/pirata) is a Ruby gem that exposes a useful and easy to use API for the popular
+torrent tracker [ThePirateBay](http://thepiratebay.se). It aims to give developers
+a simple way to incorporate the torrent and website data into their applications. -->
+
+<!-- [![Gem Version](https://badge.fury.io/rb/pirata.svg)](http://badge.fury.io/rb/pirata) [![Pirata API Documentation](https://www.omniref.com/ruby/gems/pirata.png)](https://www.omniref.com/ruby/gems/pirata) -->
+
+<h2 id="quick-start-guide">Quick Start Guide</h2>
+<p><strong>Note</strong> As the <code class="highlighter-rouge">nokogiri</code> gem is a runtime dependency of this one, it is highly
+recommended you install that before hand like so:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ env NOKOGIRI_USE_SYSTEM_LIBRARIES=true gem install nokogiri
+</code></pre>
+</div>
+
+<p>The reason for this is that <code class="highlighter-rouge">nokogiri</code> attempts to compile libxml2 and libxslt
+at installation. Substituting already-installed system libraries will cut down
+drastically on the installation time. This is not required, but hopefully will be helpful.</p>
+
+<h3 id="quick-start">Quick Start</h3>
+
+<p>First, download pirata with <code class="highlighter-rouge">gem install pirata</code></p>
+
+<p>Next, require it (either in IRB or your .rb file) <code class="highlighter-rouge">require 'pirata'</code></p>
+
+<p>Now you are free to play with Pirata! Here are some examples</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># A basic search across all categories</span>
+<span class="n">search</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"zelda reorchestrated"</span><span class="p">)</span> <span class="c1"># =&gt; Return a Pirata::Search object</span>
+<span class="n">search</span><span class="p">.</span><span class="nf">results</span> <span class="c1"># =&gt; An array of Torrent objects resulting from the search</span>
+<span class="n">search</span><span class="p">.</span><span class="nf">results</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># =&gt; A Pirata::Torrent object. See the below table for available methods</span>
+
+<span class="c1"># Get an array of the top 100 Torrents</span>
+<span class="n">top_hundred</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">top</span>
+
+<span class="c1"># Now within a specified category</span>
+<span class="n">top_hundred_videos</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">top</span><span class="p">(</span><span class="no">Pirata</span><span class="o">::</span><span class="no">Category</span><span class="o">::</span><span class="no">VIDEO</span><span class="p">)</span>
+
+<span class="c1"># Get an array of the 30 most recent uploaded Torrents</span>
+<span class="n">most_recent</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">recent</span>
+
+<span class="c1"># You can also find detailed information on a Torrent if you know its ID</span>
+<span class="no">Pirata</span><span class="o">::</span><span class="no">Torrent</span><span class="p">.</span><span class="nf">find_by_id</span><span class="p">(</span><span class="mi">5241636</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="advanced-searching">Advanced Searching</h2>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Order results by Seeders</span>
+<span class="n">torrents</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"open source"</span><span class="p">,</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Sort</span><span class="o">::</span><span class="no">SEEDERS</span><span class="p">).</span><span class="nf">results</span>
+
+<span class="c1"># Order results by Date, search only in Video and Applications categories</span>
+<span class="n">torrents</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"open source"</span><span class="p">,</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Sort</span><span class="o">::</span><span class="no">DATE</span><span class="p">,</span> <span class="p">[</span><span class="no">Pirata</span><span class="o">::</span><span class="no">Category</span><span class="o">::</span><span class="no">VIDEO</span><span class="p">,</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Category</span><span class="o">::</span><span class="no">APPLICATIONS</span><span class="p">]).</span><span class="nf">results</span>
+
+<span class="c1"># Check if a search is multipage</span>
+<span class="n">query</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"open source"</span><span class="p">).</span><span class="nf">multipage?</span> <span class="c1"># =&gt; true</span>
+
+<span class="c1"># Find the last page number</span>
+<span class="n">query</span><span class="p">.</span><span class="nf">pages</span> <span class="c1"># =&gt; 3</span>
+
+<span class="c1"># Perform a search on a page beyond the first</span>
+<span class="n">query</span><span class="p">.</span><span class="nf">search_page</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="torrent-objects">Torrent Objects</h2>
+<p><code class="highlighter-rouge">torrent = Pirata::Search.new("zelda").results.first</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Result</th>
+      <th>Example value</th>
+      <th>Return Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>#title</td>
+      <td>Torrent title</td>
+      <td>“Cylum’s ‘The Legend of Zelda’ ROM Collection”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#category</td>
+      <td>Torrent category</td>
+      <td>“Games”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#url</td>
+      <td>Full URL</td>
+      <td>“http://thepiratebay.si/torrent/10080116/Cyl…”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#id</td>
+      <td>Numeric ID</td>
+      <td>10080116</td>
+      <td>Fixnum</td>
+    </tr>
+    <tr>
+      <td>#magnet</td>
+      <td>Torrent magnet link</td>
+      <td>“magnet:?xt=urn:btih:30f784d135af21152052a…”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#seeders</td>
+      <td>Number of seeders</td>
+      <td>4</td>
+      <td>Fixnum</td>
+    </tr>
+    <tr>
+      <td>#leechers</td>
+      <td>Number of leechers</td>
+      <td>0</td>
+      <td>Fixnum</td>
+    </tr>
+    <tr>
+      <td>#uploader</td>
+      <td>User who uploaded torrent</td>
+      <td>#<Pirata::User:0x0000000260f200></Pirata::User:0x0000000260f200></td>
+      <td>Pirata::User</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: The following methods require an extra request to be made, but the first request (regardless of
+which method you call) will fetch and populate data for all other calls for the same Torrent object.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Result</th>
+      <th>Example value</th>
+      <th>Return Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>#files</td>
+      <td>Number of files</td>
+      <td>51</td>
+      <td>Fixnum</td>
+    </tr>
+    <tr>
+      <td>#size</td>
+      <td>Total torrent size</td>
+      <td>“224.95 MiB (235876575 Bytes)”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#comments</td>
+      <td>Number of comments</td>
+      <td>0</td>
+      <td>Fixnum</td>
+    </tr>
+    <tr>
+      <td>#hash</td>
+      <td>Alphanumeric hash</td>
+      <td>“30F784D135AF21152052A45AE718A7FCAB597A79”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#date</td>
+      <td>Date of upload</td>
+      <td>2002-01-01 00:00:00 -0500</td>
+      <td>Time</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="user-objects">User Objects</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Result</th>
+      <th>Example value</th>
+      <th>Return Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>#username</td>
+      <td>Username string</td>
+      <td>“LXZX”</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>#profile_url</td>
+      <td>URL for the user profile</td>
+      <td>“http://thepiratebay.si/user/LXZX”</td>
+      <td>String</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="categories">Categories</h2>
+<p>Searches by default will query across all categories. However you can choose to narrow your search down
+by passing an array of categories. These are all namespaced under Pirata::Category. <strong>Please note:</strong> These
+are only the main/topmost categories for searching - there are subcategories for each category listed below
+(but the list is too large to be pasted here). Please reference <code class="highlighter-rouge">lib/pirata/category.rb</code> for an entire
+list of possible search categories.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code>    <span class="no">AUDIO</span>         <span class="o">=</span> <span class="s2">"100"</span>
+    <span class="no">VIDEO</span>         <span class="o">=</span> <span class="s2">"200"</span>
+    <span class="no">APPLICATIONS</span>  <span class="o">=</span> <span class="s2">"300"</span>
+    <span class="no">GAMES</span>         <span class="o">=</span> <span class="s2">"400"</span>
+    <span class="no">PORN</span>          <span class="o">=</span> <span class="s2">"500"</span>
+    <span class="no">OTHER</span>         <span class="o">=</span> <span class="s2">"600"</span>
+</code></pre>
+</div>
+
+<h2 id="sorting">Sorting</h2>
+<p>By default, results are sorted by ThePirateBay’s relevance algorithm. While you could manually sort Torrent
+objects by writing your own comparator, you can also pass a <code class="highlighter-rouge">Pirata::Sort</code> constant to your search and
+have the results returned to you in whichever sorting fashion you choose.</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code>    <span class="no">RELEVANCE</span>   <span class="o">=</span> <span class="s2">"99"</span>
+    <span class="no">TYPE</span>        <span class="o">=</span> <span class="s2">"13"</span>
+    <span class="no">NAME</span>        <span class="o">=</span> <span class="s2">"1"</span>
+    <span class="no">DATE</span>        <span class="o">=</span> <span class="s2">"3"</span>
+    <span class="no">SIZE</span>        <span class="o">=</span> <span class="s2">"5"</span>
+    <span class="no">UPLOADER</span>    <span class="o">=</span> <span class="s2">"11"</span>
+    <span class="no">SEEDERS</span>     <span class="o">=</span> <span class="s2">"7"</span>
+    <span class="no">LEECHERS</span>    <span class="o">=</span> <span class="s2">"9"</span>
+</code></pre>
+</div>
+
+<h2 id="config">Config</h2>
+<p>The root <code class="highlighter-rouge">Pirata</code> namespace has an instance method <code class="highlighter-rouge">Pirata.configure</code> which accepts an options
+hash. There are 2 values accepted - <code class="highlighter-rouge">:base_url</code> and <code class="highlighter-rouge">:redirect</code>. The former refers to the
+mirror site you wish to use. ThePirataBay is notorious for going down and coming back up under
+a new domain. Because of this, you may have to change the domain you are querying against if
+you find you are running into trouble. Luckily, there are a lot of great people who host TPB
+mirror/proxy sites for free! If you find you are getting timeout errors, you can set the base
+url to a working proxy.</p>
+
+<p>A list of mirror sites can be found at <a href="http://proxybay.info/">TheProxyBay</a></p>
+
+<p>There is also a rule for HTTP redirection. When specifying a protocol in the <code class="highlighter-rouge">:base_url</code> value, you may choose to
+use <code class="highlighter-rouge">http</code> or <code class="highlighter-rouge">https</code>. The <code class="highlighter-rouge">open_uri_redirections</code> patch allows HTTP &lt;-&gt; HTTPS redirections, but requires a rule
+to be specified. You can use <code class="highlighter-rouge">:safe</code> or <code class="highlighter-rouge">:all</code>. The former only does HTTP -&gt; HTTPS redirection, while the latter
+will do both. By default, it is set to <code class="highlighter-rouge">:all</code>.</p>
+
+<p>The default configuration looks like this:</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="vi">@config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:base_url</span> <span class="o">=&gt;</span> <span class="s1">'https://pirateproxy.tv/'</span><span class="p">,</span>
+  <span class="ss">:redirect</span> <span class="o">=&gt;</span> <span class="ss">:all</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>and can be overridden with <code class="highlighter-rouge">Pirata.configure({:base_url =&gt; 'http://someproxy.com', :redirect =&gt; :safe})</code></p>
+
+<p>The configuration can be accessed with <code class="highlighter-rouge">Pirata.config</code>, which will return a hash. Note that all keys are symbols.</p>
+
+<h2 id="testing">Testing</h2>
+<p>There is a basic test suite you can run that will test against basic use cases and functionaliy. The big problem
+with testing this gem is that 1) the data is always changing for search results as things get uploaded or removed,
+comments get added, leechers/seeders get added or dropped off, etc, and 2) ThePirateBay could go offline. You can
+run tests by simply running <code class="highlighter-rouge">rake</code> in the parent Pirata directory. If you find you are getting errors (but not
+failures), ensure that the domain you are using in <code class="highlighter-rouge">Pirata.config[:base_url]</code> is actually up. Otherwise, please
+feel free to submit a Github issue and I’ll get to it asap. Or fork it and help out!</p>
+
+<h2 id="license">License</h2>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+
+  </div>
+
+</body>
+</html>

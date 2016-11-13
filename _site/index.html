@@ -15,12 +15,6 @@
     <p><strong>Note: I’m available for consulting and contract software development work. If you’re
 looking to build a website, API, automation or scraping services then get in touch: <a href="mailto:colin@strongco.de">colin@strongco.de</a></strong></p>
 
-<!-- [Pirata](https://github.com/strong-code/pirata) is a Ruby gem that exposes a useful and easy to use API for the popular
-torrent tracker [ThePirateBay](http://thepiratebay.se). It aims to give developers
-a simple way to incorporate the torrent and website data into their applications. -->
-
-<!-- [![Gem Version](https://badge.fury.io/rb/pirata.svg)](http://badge.fury.io/rb/pirata) [![Pirata API Documentation](https://www.omniref.com/ruby/gems/pirata.png)](https://www.omniref.com/ruby/gems/pirata) -->
-
 <h2 id="quick-start-guide">Quick Start Guide</h2>
 <p><strong>Note</strong> As the <code class="highlighter-rouge">nokogiri</code> gem is a runtime dependency of this one, it is highly
 recommended you install that before hand like so:</p>
@@ -40,6 +34,7 @@ drastically on the installation time. This is not required, but hopefully will b
 <p>Next, require it (either in IRB or your .rb file) <code class="highlighter-rouge">require 'pirata'</code></p>
 
 <p>Now you are free to play with Pirata! Here are some examples</p>
+
 <div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># A basic search across all categories</span>
 <span class="n">search</span> <span class="o">=</span> <span class="no">Pirata</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"zelda reorchestrated"</span><span class="p">)</span> <span class="c1"># =&gt; Return a Pirata::Search object</span>
 <span class="n">search</span><span class="p">.</span><span class="nf">results</span> <span class="c1"># =&gt; An array of Torrent objects resulting from the search</span>

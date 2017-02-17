@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.version = "2.0.1"
   s.date = "2016-03-19"
   s.summary = "Pirata - a Ruby API for The Pirate Bay"
-  s.authors = ["Colin Lindsay"]
-  s.email = "clindsay107@gmail.com"
+  s.authors = ["Colin"]
+  s.email = "colin@strongco.de"
   s.homepage = "https://github.com/strong-code/pirata"
   s.files = [
     "lib/pirata.rb",

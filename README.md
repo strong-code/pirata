@@ -1,4 +1,4 @@
-#Pirata
+# Pirata
 [![Gem Version](https://badge.fury.io/rb/pirata.svg)](http://badge.fury.io/rb/pirata) [![Pirata API Documentation](https://www.omniref.com/ruby/gems/pirata.png)](https://www.omniref.com/ruby/gems/pirata)
 
 **Note: I'm available for consulting and contract software development work. If you're
@@ -8,8 +8,8 @@ Pirata is a Ruby gem that exposes a useful and easy to use API for the popular
 torrent tracker [ThePirateBay](http://thepiratebay.se). It aims to give developers
 a simple way to incorporate the torrent and website data into their applications.
 
-#Usage
-##Quick Start Guide
+# Usage
+## Quick Start Guide
 **Note** As the `nokogiri` gem is a runtime dependency of this one, it is highly
 recommended you install that before hand like so:
 
@@ -45,7 +45,7 @@ most_recent = Pirata::Search.recent
 Pirata::Torrent.find_by_id(5241636)
 ```
 
-##Advanced Searching
+## Advanced Searching
 ```ruby
 # Order results by Seeders
 torrents = Pirata::Search.new("open source", Pirata::Sort::SEEDERS).results
@@ -63,7 +63,7 @@ query.pages # => 3
 query.search_page(2)
 ```
 
-##Torrent Objects
+## Torrent Objects
 `torrent = Pirata::Search.new("zelda").results.first`
 
 | Method     | Result               | Example value                                   | Return Type |
@@ -88,14 +88,14 @@ which method you call) will fetch and populate data for all other calls for the 
 | #hash      | Alphanumeric hash    | "30F784D135AF21152052A45AE718A7FCAB597A79"      | String      |
 | #date      | Date of upload       | 2002-01-01 00:00:00 -0500                       | Time        |
 
-##User Objects
+## User Objects
 
 | Method     | Result               | Example value                                   | Return Type |
 |------------|----------------------|-------------------------------------------------|-------------|
 | #username  | Username string      | "LXZX"                                          | String      |
 | #profile_url | URL for the user profile | "http://thepiratebay.si/user/LXZX"        | String      |
 
-#Categories
+# Categories
 Searches by default will query across all categories. However you can choose to narrow your search down
 by passing an array of categories. These are all namespaced under Pirata::Category. **Please note:** These
 are only the main/topmost categories for searching - there are subcategories for each category listed below
@@ -111,7 +111,7 @@ list of possible search categories.
     OTHER         = "600"
 ```
 
-#Sorting
+# Sorting
 By default, results are sorted by ThePirateBay's relevance algorithm. While you could manually sort Torrent
 objects by writing your own comparator, you can also pass a `Pirata::Sort` constant to your search and
 have the results returned to you in whichever sorting fashion you choose.
@@ -126,7 +126,7 @@ have the results returned to you in whichever sorting fashion you choose.
     LEECHERS    = "9"
 ```
 
-#Config
+# Config
 The root `Pirata` namespace has an instance method `Pirata.configure` which accepts an options
 hash. There are 2 values accepted - `:base_url` and `:redirect`. The former refers to the
 mirror site you wish to use. ThePirataBay is notorious for going down and coming back up under
@@ -154,7 +154,7 @@ and can be overridden with `Pirata.configure({:base_url => 'http://someproxy.com
 
 The configuration can be accessed with `Pirata.config`, which will return a hash. Note that all keys are symbols.
 
-#Testing
+# Testing
 There is a basic test suite you can run that will test against basic use cases and functionaliy. The big problem
 with testing this gem is that 1) the data is always changing for search results as things get uploaded or removed,
 comments get added, leechers/seeders get added or dropped off, etc, and 2) ThePirateBay could go offline. You can
@@ -162,7 +162,7 @@ run tests by simply running `rake` in the parent Pirata directory. If you find y
 failures), ensure that the domain you are using in `Pirata.config[:base_url]` is actually up. Otherwise, please
 feel free to submit a Github issue and I'll get to it asap. Or fork it and help out!
 
-#License
+# License
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or

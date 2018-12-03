@@ -87,11 +87,14 @@ module Pirata
         next if title == ''
         h = {}
 
+        base_url = URI.parse(Pirata.config[:base_url])
+        href = row.search('.detLink').attribute('href').to_s.gsub("[", "%5B").gsub("]", "%5D")
+        url = base_url.merge(href).to_s
+
         begin
           h[:title]       = title
           h[:category]    = row.search('td a')[0].text
-          url             = Pirata.config[:base_url] + row.search('.detLink').attribute('href').to_s
-          h[:url]         = url.gsub("[", "%5B").gsub("]", "%5D")
+          h[:url]         = url
           h[:id]          = h[:url].split('/')[4].to_i
           h[:magnet]      = row.search('td a')[3]['href']
           h[:seeders]     = row.search('td')[2].text.to_i

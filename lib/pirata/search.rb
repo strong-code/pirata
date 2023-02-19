@@ -101,7 +101,7 @@ module Pirata
           h[:seeders]     = row.search('td')[2].text.to_i
           h[:leechers]    = row.search('td')[3].text.to_i
           h[:uploader]    = Pirata::User.new(row.search('.detDesc a')[0].text)
-          h[:category_num] = category
+          h[:category_num] = category_num
         rescue
           #puts "not found"
         end

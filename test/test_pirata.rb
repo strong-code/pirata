@@ -64,6 +64,7 @@ class PirataTest < Minitest::Unit::TestCase
     torrent = Pirata::Search.new("zelda").results.first
     assert_equal(String, torrent.title.class)
     assert_equal(String, torrent.category.class)
+    assert_equal(String, torrent.category_num.class)
     assert(!/http.*/.match(torrent.url).nil?)
     assert_equal(Fixnum, torrent.id.class)
     assert(!/magnet:\?.*/.match(torrent.magnet).nil?)

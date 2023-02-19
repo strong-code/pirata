@@ -6,7 +6,7 @@ require 'time'
 module Pirata
   class Torrent
 
-    attr_reader :title, :category, :url, :id, :magnet
+    attr_reader :title, :category, :category_num, :url, :id, :magnet
 
     def initialize(params_hash)
       @params     = params_hash
@@ -15,6 +15,7 @@ module Pirata
       @url        = @params[:url]
       @id         = @params[:id]
       @magnet     = @params[:magnet]
+      @category_num = @params[:category_num]
 
       build_getters()
     end
@@ -32,7 +33,7 @@ module Pirata
 
     def update_params!
       html = Pirata::Torrent.parse_html(url)
-      
+
       updated_params = Pirata::Torrent.parse_torrent_page(html)
       @params.merge!(updated_params)
     end

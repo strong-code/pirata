@@ -87,6 +87,10 @@ module Pirata
         next if title == ''
         h = {}
 
+        category_num = row.search('td:nth-child(1) a').map do |a|
+          %r(/browse/(\d+)).match(a['href'])&.match(1)
+        end.compact.max
+
         begin
           h[:title]       = title
           h[:category]    = row.search('td a')[0].text
@@ -97,6 +101,7 @@ module Pirata
           h[:seeders]     = row.search('td')[2].text.to_i
           h[:leechers]    = row.search('td')[3].text.to_i
           h[:uploader]    = Pirata::User.new(row.search('.detDesc a')[0].text)
+          h[:category_num] = category_num
         rescue
           #puts "not found"
         end
